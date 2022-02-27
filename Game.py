@@ -111,8 +111,18 @@ class Game:
             print(player)
         return
 
-    def game_fix(self):
-        pass
+    def game_fix(self, player, cards):
+        curr_player = self.resolve_player(player)
+        for card in cards:
+            if card not in Game.VALID_RESOURCE_NAME:
+                raise Exception("Invalid card value {c}.".format(c=card))
+            curr_player.hand[card] += 1
+        return
+
+    def game_clear_cards(self, player):
+        curr_player = self.resolve_player(player)
+        for resource in curr_player.hand:
+            curr_player.hand[resource] = 0
         return
 
     def game_board(self):
