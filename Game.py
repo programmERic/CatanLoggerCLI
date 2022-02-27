@@ -1,6 +1,6 @@
-import Player
-import Robber
-import Tile
+from Player import * 
+from Robber import * 
+from Tile import * 
 
 DEBUG = True
 
@@ -21,39 +21,25 @@ class Game:
         self.board_vals = []
         self.num_players = 4
         self.players = []
-        self.robber = Robber()
+        self.robber = Robber("desert")
 
     def create_board(self, tiles):
 
         if DEBUG:
             print("create_board, tiles: {}".format(tiles))
 
-        board = {freq:[] for freq in range(2, 13)}
+        board = {str(freq):[] for freq in range(2, 13)}
 
         num_tiles = 0
         
-        for tile in tiles.replace(" ", "").split(","):
-
-            if tile == "desert":
-                continue
-
-            tile_len = len(tile)
-            if tile_len == 2:
-                frequency, resource = int(tile[0]), tile[1]
-            elif tile_len == 3:
-                frequency, resource = int(tile[0:2]), tile[2]
-            else:
-                raise Exception("Invalid tile format. {t}".format(t=tile))
-
-            if frequency not in Game.VALID_DICE_NUM:
-                raise Exception("Invalid hex dice number {freq}".format(freq=frequency))
-            elif resource not in Game.VALID_RESOURCE_NAME:
-                raise Exception("Invalid resource name {res}".format(res=resource))
-
-            board[frequency] += resource
+        for tile_val in tiles.replace(" ", "").split(","):
+            print(tile_val)
+            tile = Tile(tile_val)
+            
+            board[tile.frequency] += tile.resource
             num_tiles += 1
 
-            self.board_vals.append(tile)
+            self.board_vals.append(tile.value)
             
         if num_tiles!= Game.VALID_NUM_RESOURCES:
             raise Exception("Invalid number of resources on the board. Expected {}, but counted {}.".format(Game.VALID_NUM_RESOURCES, num_tiles))
@@ -78,10 +64,12 @@ class Game:
             new_player = Player(order=order)
             self.players.append(new_player)
             print(new_player)
+        return
 
     def roll(self, dice):
         for player in self.players:
             player.cards_roll_resource(dice, self.robber)
+        return
 
     def resolve_player(self, player):
         for check_player in self.players:
@@ -95,11 +83,13 @@ class Game:
     def player_builds_or_buys_dev(self, player, purpose, tiles):
         curr_player = self.resolve_player(player)
         curr_player.use_cards(purpose=purpose, tiles=self.handle_tiles_str(tiles))
+        return
 
     def player_robs(self, player1, player2, tile):
         curr_player = self.resolve_player(player1)
         robbed_player = self.resolve_player(player2)
         curr_player.cards_rob_resource(robbed_player)
+        return
 
     def player_trades(self, player1, resources1, player2, resources2):
         curr_player1 = self.resolve_player(player1)
@@ -110,23 +100,37 @@ class Game:
 
         curr_player2.cards_update_resource(resources2, award=False)
         curr_player2.cards_update_resource(resources1, award=True)
+        return
 
     def game_players(self):
         for player in self.players:
             print("P{order}-{name}".format(order=player.order, name=player.name))
+        return
 
     def game_player_name(self, player, name):
         self.resolve_player(player).name = name
+        return
 
     def game_cards(self):
         for player in self.players:
             print(player)
+        return
 
     def game_fix(self):
         pass
+        return
 
     def game_board(self):
-        pass
+        board_str = ""
+        split = [2, 6, 11, 15]
+        for i, val in enumerate(self.board_vals):
 
-        #for i in range([3, 4, 5, 4, 3]):
-        #    padding = 
+            if len(val) == 2:
+                val = " " + val
+
+            board_str += val + "," 
+
+            if i in split:
+                board_str += "\n"
+
+        return board_str

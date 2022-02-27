@@ -1,11 +1,4 @@
-
-
-
-
-
-
-
-
+from Game import *
 
 class GameFlow:
 
@@ -73,9 +66,9 @@ class GameFlow:
         elif action == "cards":
             self.game.game_cards()
         elif action == "fix":
-            selfgame.game_fix()
+            self.game.game_fix()
         elif action == "board":
-            self.game.game_board()
+            print(self.game.game_board())
             
 
 
@@ -100,7 +93,7 @@ class GameFlow:
         help_msg =\
         '''
         FORMAT
-        <player>: the players identifer ex. defaults are p1, p2, p3, p4
+        <player>: the players identifier ex. defaults are p1, p2, p3, p4
         <tile>: 2/3 letters representing ex. 11s is 11 sheep tile, 3t is 3 wheat tile
         <resource>: 1 letter is 1 resource ex. bbb is 3 brick
 

@@ -7,25 +7,23 @@ class Player:
         self.name = name
         self.order = order
 
-        self.settlements = {}
+        self.settlements = []
         self.num_settlements = 0
         
-        self.cities = {}
+        self.cities = []
         self.num_cities = 0
 
     def cards_roll_resource(self, roll, robber):
 
         print(roll, self.settlements)
 
-        if roll in self.settlements:
-            for resource in self.settlements[roll]:
-                if robber.tile != str.join(roll, resource):
-                    self.hand[resource] += 1
+        for settle in self.settlements:
+            if settle.frequency == roll and robber.tile != settle.tile:
+                self.hand[settle.resource] += 1
 
-        if roll in self.cities:
-            for resource in this.cities[roll]:
-                if robber.tile != str.join(roll, resource):
-                    self.hand[resource] += 2
+        for city in self.cities:
+            if city.frequency == roll and robber.tile != city.tile:
+                self.hand[city.resource] += 2
 
         return
 

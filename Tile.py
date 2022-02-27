@@ -6,7 +6,6 @@ class Tile:
         if tile == "desert":
             self.frequency = ''
             self.resource = 'DES'
-            self.blocked = True
             return
 
         tile_len = len(tile)
@@ -22,13 +21,15 @@ class Tile:
         if resource not in Tile.VALID_TILE_RESOURCE:
             raise Exception("Invalid tile format. Resource of tile is not valid. Expected: {resources} but received Resource: {r} ".format(resources=Tile.VALID_TILE_RESOURCE.join(","), r=resource))
         
+        self.value = tile
         self.frequency = frequency
         self.resource = resource
-
-        self.blocked = False
 
     def __str__(self):
         tile = str(self.frequency + self.resource)
         if len(tile) == 2: 
             tile = ' ' + tile
         return '/---\\\n|' + tile + '|\n\\---/'
+
+    def __eq__(self, other):
+        return self.value == other.value
