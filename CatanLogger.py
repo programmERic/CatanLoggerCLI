@@ -68,7 +68,7 @@ class GameFlow:
         elif action == "fix":
             self.game.game_fix()
         elif action == "board":
-            print(self.game.game_board())
+            self.game.game_board()
             
 
 

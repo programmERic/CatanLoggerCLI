@@ -117,13 +117,15 @@ class Game:
 
     def game_board(self):
         board_str = ""
-        split = [2, 6, 11, 15]
+        split = [2, 6, 11, 15, 18]
         for i, tile in enumerate(self.board_tiles):
-
-
-            board_str += str(tile) + "," 
+            board_str += str(tile) 
 
             if i in split:
-                board_str += "\n"
+                print()
+                print(board_str.center(40))
+                board_str = ""
+            else:
+                board_str += ", "
 
-        return board_str
+        return 
