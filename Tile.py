@@ -2,9 +2,12 @@ class Tile:
 
     VALID_TILE_RESOURCE = ["w", "b", "s", "t", "o"]
 
-    def __init__(self, tile):
+    def __init__(self, tile, tile_num):
+        self.value = tile 
+        self.number = tile_num
+
         if tile == "desert":
-            self.frequency = ''
+            self.frequency = '7'
             self.resource = 'DES'
             return
 
@@ -21,15 +24,15 @@ class Tile:
         if resource not in Tile.VALID_TILE_RESOURCE:
             raise Exception("Invalid tile format. Resource of tile is not valid. Expected: {resources} but received Resource: {r} ".format(resources=Tile.VALID_TILE_RESOURCE.join(","), r=resource))
         
-        self.value = tile
         self.frequency = frequency
         self.resource = resource
 
     def __str__(self):
-        tile = str(self.frequency + self.resource)
-        if len(tile) == 2: 
-            tile = ' ' + tile
-        return '/---\\\n|' + tile + '|\n\\---/'
+        # tile = str(self.frequency + self.resource)
+        # if len(tile) == 2: 
+        #     tile = ' ' + tile
+        # return '/---\\\n|' + tile + '|\n\\---/'
+        return "{num}-{val}".format(num=self.number, val=self.value)
 
     def __eq__(self, other):
-        return self.value == other.value
+        return self.value == other.value and self.number == other.number

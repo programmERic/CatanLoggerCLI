@@ -12,13 +12,13 @@ class Game:
     VALID_TOTAL_RESOURCE_HEX = {"w":4, "b":3, "s":4, "t":4, "o":3}
     VALID_NUM_DIE_FREQ = {2:1, 3:2, 4:2, 5:2, 6:2, 8:2, 9:2, 10:2, 11:2, 12:1}
 
-    VALID_NUM_RESOURCES = 18
+    VALID_NUM_RESOURCES = 19
     
 
     def __init__(self):
 
-        self.board = None
-        self.board_vals = []
+        self.board = {str(freq):[] for freq in range(2, 13)}
+        self.board_tiles = []
         self.num_players = 4
         self.players = []
         self.robber = Robber("desert")
@@ -28,26 +28,21 @@ class Game:
         if DEBUG:
             print("create_board, tiles: {}".format(tiles))
 
-        board = {str(freq):[] for freq in range(2, 13)}
-
         num_tiles = 0
-        
-        for tile_val in tiles.replace(" ", "").split(","):
-            print(tile_val)
-            tile = Tile(tile_val)
-            
-            board[tile.frequency] += tile.resource
-            num_tiles += 1
+        tile_values = tiles.replace(" ", "").split(",")
 
-            self.board_vals.append(tile.value)
+        for tile_num, tile_str in enumerate(tile_values, start=1):
+            tile = Tile(tile_str, tile_num)
+            self.board_tiles.append(tile)
+            self.board[tile.frequency].append(tile.resource)
+            num_tiles += 1
             
         if num_tiles!= Game.VALID_NUM_RESOURCES:
             raise Exception("Invalid number of resources on the board. Expected {}, but counted {}.".format(Game.VALID_NUM_RESOURCES, num_tiles))
 
         if DEBUG:
-            print("create_board, board: {}".format(board))
+            print("create_board, board: {}".format(self.board))
 
-        self.board = board
         return
 
     def handle_tiles_str(self, tile_str):
@@ -123,12 +118,10 @@ class Game:
     def game_board(self):
         board_str = ""
         split = [2, 6, 11, 15]
-        for i, val in enumerate(self.board_vals):
+        for i, tile in enumerate(self.board_tiles):
 
-            if len(val) == 2:
-                val = " " + val
 
-            board_str += val + "," 
+            board_str += str(tile) + "," 
 
             if i in split:
                 board_str += "\n"
