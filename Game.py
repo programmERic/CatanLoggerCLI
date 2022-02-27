@@ -22,23 +22,49 @@ class Game:
         self.num_players = 4
         self.players = []
         self.robber = Robber("desert")
+        #self.bank = Bank() #TODO: add bank
+        '''
+        if the board contains duplicates like 4w & 4w,
+        then the user will need to specify the tile number 
+        when calling rob, knight and other specific 
+        tile-dependent commands
+        '''
+        self.require_tile_num = False 
+        
 
     def create_board(self, tiles):
 
         if DEBUG:
             print("create_board, tiles: {}".format(tiles))
 
+        duplicate_check = set()
+        possible_duplicate_tiles = {}
+
         num_tiles = 0
         tile_values = tiles.replace(" ", "").split(",")
 
         for tile_num, tile_str in enumerate(tile_values, start=1):
             tile = Tile(tile_str, tile_num)
+            duplicate_check.add(tile_str)
             self.board_tiles.append(tile)
             self.board[tile.frequency].append(tile.resource)
             num_tiles += 1
+
+            if tile_str not in possible_duplicate_tiles:
+                possible_duplicate_tiles[tile_str] = 0
+            possible_duplicate_tiles[tile_str] += 1    
             
-        if num_tiles!= Game.VALID_NUM_RESOURCES:
+        if num_tiles != Game.VALID_NUM_RESOURCES:
             raise Exception("Invalid number of resources on the board. Expected {}, but counted {}.".format(Game.VALID_NUM_RESOURCES, num_tiles))
+
+        if len(duplicate_check) != Game.VALID_NUM_RESOURCES:
+            self.require_tile_num = True
+            duplicate_tiles = ""
+            for tile in possible_duplicate_tiles:
+                if possible_duplicate_tiles[tile] > 1:
+                    duplicate_tiles += tile + " "
+            print("\nMultiple tiles found: {t}".format(t=duplicate_tiles))
+            print("Please specify tile number when calling tile specific commands.\n")
 
         if DEBUG:
             print("create_board, board: {}".format(self.board))
