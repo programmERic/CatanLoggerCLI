@@ -58,7 +58,8 @@ class Game:
         for order in range(1, self.num_players+1):
             new_player = Player(order=order)
             self.players.append(new_player)
-            print(new_player)
+            if DEBUG:
+                print(new_player)
         return
 
     def roll(self, dice):
@@ -133,9 +134,10 @@ class Game:
 
             if i in split:
                 print()
-                print(board_str.center(40))
+                print(board_str.center(50))
                 board_str = ""
             else:
                 board_str += ", "
 
+        print()
         return 

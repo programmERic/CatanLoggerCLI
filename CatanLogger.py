@@ -124,7 +124,7 @@ class GameFlow:
 
         development card COMMANDS
         -- dev <player> buy 'buys a dev card'
-        -- plenty <player> <resource><resource> 'plays a year of plenty (draw two cards)'
+        -- plenty <player> <cards> 'plays a year of plenty (draw two cards)'
         -- mono <player> <resource> 'plays a monopoly, gets all resource cards'
         -- knight <player1> <player2> <tile>
         -- roadbuild <player> 'plays a road building card'

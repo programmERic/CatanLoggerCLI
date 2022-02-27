@@ -2,7 +2,7 @@ class Tile:
 
     VALID_TILE_RESOURCE = ["w", "b", "s", "t", "o"]
 
-    def __init__(self, tile, tile_num):
+    def __init__(self, tile, tile_num=None):
         self.value = tile 
         self.number = tile_num
 
@@ -32,7 +32,7 @@ class Tile:
         # if len(tile) == 2: 
         #     tile = ' ' + tile
         # return '/---\\\n|' + tile + '|\n\\---/'
-        return "{num}-{val}".format(num=self.number, val=self.value)
+        return "({num})={val}".format(num=self.number, val=self.value)
 
     def __eq__(self, other):
         return self.value == other.value and self.number == other.number
