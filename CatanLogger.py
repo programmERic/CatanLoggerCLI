@@ -2,6 +2,27 @@ from Game import *
 
 class GameFlow:
 
+    VALID_COMMANDS = {
+        "roll" : 0,
+        "settlement" : 0,
+        "city" : 0,
+        "robber" : 0,
+        "dev" : 0,
+        "roll" : 0,
+        "plenty" : 0,
+        "mono" : 0,
+        "knight" : 0,
+        "roadbuild" : 0,
+        "vp" : 0,
+        "trade" : 0,
+        "port" : 0,
+        "players" : 0,
+        "player" : 0,
+        "cards" : 0,
+        "clear" : 0,
+        "board" : 0,
+    }
+
     def __init__(self):
         self.game = None
 
@@ -56,7 +77,21 @@ class GameFlow:
 
             purpose, player = cmd[:2]  
             self.game.player_builds_or_buys_dev(player=player, purpose=purpose, tiles=tiles)
-            
+
+        # development card commands
+        elif action == "plenty":
+            self.game.game_players()
+        elif action == "mono":
+            player, name = cmd[1:3]
+            self.game.game_player_name(player, name) 
+        elif action == "knight":
+            raise Exception("knight not implemented yet.")
+        elif action == "roadbuild":
+            raise Exception("roadbuild not implemented yet.")
+        elif action == "vp":
+            raise Exception("vp not implemented yet.")
+
+
         # Game Commands
         elif action == "players":
             self.game.game_players()
